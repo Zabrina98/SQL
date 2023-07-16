@@ -1,0 +1,90 @@
+# For this project, I downloaded Spotify data from Kaggle.
+# Then I created a table to insert Spotify data into.
+# Finally, I performed analytics on the data using SQL. 
+
+
+CREATE TABLE BIT_DB.Spotifydata (
+id integer PRIMARY KEY,
+artist_name varchar NOT NULL,
+track_name varchar NOT NULL,
+track_id varchar NOT NULL,
+popularity integer NOT NULL,
+danceability decimal(4,3) NOT NULL,
+energy decimal(4,3) NOT NULL,
+song_key integer NOT NULL,
+loudness decimal(5,3) NOT NULL,
+song_mode integer NOT NULL,
+speechiness decimal(5,4) NOT NULL,
+acousticness decimal(6,5) NOT NULL,
+instrumentalness decimal(8,7) NOT NULL,
+liveness decimal(5,4) NOT NULL,
+valence decimal(4,3) NOT NULL,
+tempo decimal(6,3) NOT NULL,
+duration_ms integer NOT NULL,
+time_signature integer NOT NULL );
+
+
+
+
+SELECT track_name, popularity, AVG(popularity) AS Allavgpopularity
+FROM BIT_DB.Spotifydata
+GROUP BY track_name, popularity
+ORDER BY 1,2;
+
+
+
+SELECT artist_name, track_name, MAX(popularity), MAX(energy), MAX(liveness)
+FROM BIT_DB.Spotifydata
+ORDER BY 1,2,3;
+
+SELECT track_name, popularity
+FROM BIT_DB.spotifydata
+GROUP BY artist_name 
+LIMIT 7;
+
+SELECT artist_name
+,AVG(loudness)
+,AVG(valence)
+,AVG(tempo)
+FROM BIT_DB.spotifydata
+ORDER BY track_id ASC;
+
+SELECT SUM(popularity)
+FROM BIT_DB.spotifydata
+WHERE id= 4
+ORDER BY track_id;
+
+SELECT COUNT(popularity)
+FROM BIT_DB.Spotifydata
+GROUP BY artist_name;
+
+SELECT MAX(popularity)-AVG(popularity)
+FROM BIT_DB.spotifydata
+WHERE artist_name LIKE'%D%';
+
+
+
+SELECT track_name, popularity,(SELECT Avg (popularity)
+FROM BIT_DB.spotifydata) 
+FROM BIT_DB.spotifydata;
+
+
+
+SELECT track_name, popularity,COUNT(*)
+FROM BIT_DB.Spotifydata
+GROUP BY track_name;
+
+
+
+SELECT popularity,
+CASE 
+
+WHEN popularity >= 92 THEN 'above' 
+WHEN popularity >= 88 THEN  'above average'
+WHEN popularity >= 71 THEN 'average'
+WHEN popularity >= 70 THEN 'below average' 
+ELSE 'average'
+
+END AS how_popular
+
+FROM BIT_DB.spotifydata;
