@@ -1,2 +1,2 @@
-# SQL
+# Zabrina Jama SQL Portfolio 
 SQL Projects
